@@ -10,12 +10,11 @@ import com.gmail.wizaripost.utils.SapperHelper;
 public class Cell {
     private static int[][] fullField;
     private static int[][] mineField;
-//    private Sprite currentImage;
+    //    private Sprite currentImage;
     static Array<Sprite> field;
 
     private static TextureAtlas textureAtlas;
     private static Sprite background;
-
 
     private static Sprite pure;
     private static Sprite one;
@@ -28,12 +27,20 @@ public class Cell {
     private static Sprite eight;
     private static Sprite mine;
 
-//    public Sprite getCurrentImage() {
+    public static TextureAtlas getTextureAtlas() {
+        return textureAtlas;
+    }
+
+    public static int[][] getMineField() {
+        return mineField;
+    }
+
+    //    public Sprite getCurrentImage() {
 //        return currentImage;
 //    }
 
-//    public Cell(TextureAtlas textureAtlas) {
-public static void initialize(float width, float height, int fieldLength, int fieldHeight, int amountMines) {
+    //    public Cell(TextureAtlas textureAtlas) {
+    public static void initialize(float width, float height, int fieldLength, int fieldHeight, int amountMines) {
         textureAtlas = new TextureAtlas("bla.txt");
         background = textureAtlas.createSprite("pesok4");
         pure = textureAtlas.createSprite("pure");
@@ -46,26 +53,42 @@ public static void initialize(float width, float height, int fieldLength, int fi
         seven = textureAtlas.createSprite("7");
         eight = textureAtlas.createSprite("8");
         mine = textureAtlas.createSprite("9");
-//        field = sowField(10, 10, 8);
-    mineField = SapperHelper.createField(fieldLength, fieldHeight, amountMines);
-    fullField = SapperHelper.calculateField(mineField);
-    field = new Array<Sprite>();
-//        Array<Sprite> field = new Array<Sprite>();
-    int t = 0;
-    int x = 0;
-    for (int i = 0; i < fullField.length; i++, x += 50) {
-        int y = 0;
-        System.out.println();
-        for (int j = 0; j < fullField[0].length; j++, y += 50, t++) {
-            int cell = fullField[i][j];
-            System.out.print(cell);
-            Sprite sprite = setTexture(cell);
-                sprite.setX(x);
-                sprite.setY(y);
-            field.add(sprite);
+//        tileField = sowField(10, 10, 8);
+        mineField = SapperHelper.createField(fieldLength, fieldHeight, amountMines);
+        fullField = SapperHelper.calculateField(mineField);
+        field = new Array<Sprite>();
+//        Array<Sprite> tileField = new Array<Sprite>();
+        int t = 0;
+        int y = (fullField.length*50)-50;
 
+        for (int i = 0; i < fullField.length; i++, y -= 50) {
+            int x = 0;
+            System.out.println();
+            for (int j = 0; j < fullField[0].length; j++, x += 50, t++) {
+                int cell = fullField[i][j];
+                System.out.print(cell);
+                Sprite sprite = setTexture(cell);
+                sprite.setX(x); //min fast
+                sprite.setY(y); //max
+                field.add(sprite);
+
+            }
         }
-    }
+
+//
+//    for (int i = 0; i < fullField.length; i++, x += 50) {
+//        int y = 0;
+//        System.out.println();
+//        for (int j = 0; j < fullField[0].length; j++, y += 50, t++) {
+//            int cell = fullField[j][i];
+//            System.out.print(cell);
+//            Sprite sprite = setTexture(cell);
+//            sprite.setX(x);
+//            sprite.setY(y);
+//            field.add(sprite);
+//
+//        }
+//    }
     }
 
     public static Sprite setTexture(int index) {
@@ -74,7 +97,7 @@ public static void initialize(float width, float height, int fieldLength, int fi
         Sprite sprite;
         if (index == 0) {
 //            return null;
-           return sprite = new Sprite(pure);
+            return sprite = new Sprite(pure);
         }
         if (index == 1) {
             return sprite = new Sprite(one);
@@ -113,12 +136,13 @@ public static void initialize(float width, float height, int fieldLength, int fi
         }
         return null;
     }
-//    Array<Sprite>
-    public void  sowField(int fieldLength, int fieldHeight, int amountMines) {
+
+    //    Array<Sprite>
+    public void sowField(int fieldLength, int fieldHeight, int amountMines) {
         this.mineField = SapperHelper.createField(fieldLength, fieldHeight, amountMines);
         this.fullField = SapperHelper.calculateField(mineField);
         field = new Array<Sprite>();
-//        Array<Sprite> field = new Array<Sprite>();
+//        Array<Sprite> tileField = new Array<Sprite>();
         int t = 0;
         int x = 0;
         for (int i = 0; i < fullField.length; i++, x += 50) {
@@ -142,11 +166,6 @@ public static void initialize(float width, float height, int fieldLength, int fi
 
 
 }
-
-
-
-
-
 
 
 //    public static Sprite setTexture(int index) {

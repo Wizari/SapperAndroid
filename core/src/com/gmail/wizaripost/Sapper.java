@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.gmail.wizaripost.gameobjects.Cell;
+import com.gmail.wizaripost.gameobjects.Tile;
 import com.gmail.wizaripost.managers.GameManager;
+import com.gmail.wizaripost.managers.InputManager;
 
 public class Sapper extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -30,6 +32,7 @@ public class Sapper extends ApplicationAdapter {
         camera.setToOrtho(false); // центруем камеру (w/2, h/2) этой строкой
         batch = new SpriteBatch();
         Cell.initialize(width, height, 10,10,8);//инициализируем игру
+        Tile.initialize(width, height, 10,10,8);
 //        textureAtlas = new TextureAtlas("bla.txt");
 //        background = textureAtlas.createSprite("pesok4");
 //        cell = new Cell(textureAtlas);
@@ -45,9 +48,12 @@ public class Sapper extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        InputManager.handleInput(camera);
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
 //        background.draw(batch);
         Cell.renderGame(batch);
+        Tile.render(batch);
 
 //        cell.getCurrentImage().draw(batch);
 
